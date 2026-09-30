@@ -1,0 +1,119 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: "Comic Sans MS", "Impact", sans-serif; /* Самые кринжовые шрифты */
+}
+
+body {
+    background: linear-gradient(45deg, #ff00ff, #00ffff, #ff0000, #00ff00);
+    background-size: 400% 400%;
+    animation: gradientBG 5s ease infinite;
+    color: #fff;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+/* Радужный фон для меню */
+.header {
+    background-color: #000 !important;
+    border-bottom: 5px dashed #00ff00;
+    position: fixed;
+    width: 100%;
+    top: 0;
+    z-index: 100;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px 5%;
+}
+
+.header .logo {
+    color: #ff00ff;
+    text-shadow: 2px 2px #000, -2px -2px #000, 3px 3px yellow;
+    font-size: 26px;
+    text-decoration: none;
+}
+
+.header .menu {
+    list-style: none;
+    display: flex;
+    gap: 15px;
+}
+
+.header .menu a {
+    color: #00ff00;
+    background: #222;
+    padding: 5px 10px;
+    border: 2px outset #fff;
+    text-decoration: none;
+}
+
+.header .menu a:hover, .header .menu a.active {
+    color: black;
+    background: yellow;
+    font-weight: bold;
+}
+
+/* Контентная зона */
+.main-content {
+    flex: 1;
+    text-align: center;
+    padding: 50px 20px;
+}
+
+.meme-box {
+    background: rgba(0, 0, 0, 0.85);
+    border: 10px ridge #ff00ff;
+    padding: 30px;
+    display: inline-block;
+    margin-top: 50px;
+    max-width: 500px;
+}
+
+/* АНИМАЦИЯ 1: Мигающий текст */
+.blink-text {
+    color: #ff0000;
+    font-size: 24px;
+    font-weight: bold;
+    animation: blinker 0.4s linear infinite;
+}
+@keyframes blinker {
+    50% { opacity: 0; }
+}
+
+/* АНИМАЦИЯ 2: Безумная тряска контента */
+.bounce-animation {
+    animation: shakeIt 0.5s ease-in-out infinite alternate;
+}
+@keyframes shakeIt {
+    0% { transform: rotate(-1deg) scale(1); }
+    100% { transform: rotate(1deg) scale(1.02); }
+}
+
+/* АНИМАЦИЯ 3: Перелив заднего фона */
+@keyframes gradientBG {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+}
+
+/* Футер */
+.footer {
+    background: #000;
+    color: #00ff00;
+    padding: 15px;
+    font-size: 18px;
+    border-top: 5px dotted #ff00ff;
+}
+
+/* Адаптивность для мобилок */
+@media (max-width: 768px) {
+    .header .menu {
+        display: none; /* Для мобильных скроем от греха подальше */
+    }
+    body {
+        font-size: 14px;
+    }
+}

@@ -1,0 +1,397 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>МУЗЕЙ КРИНЖА</title>
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: 'Comic Sans MS', 'Courier New', cursive, sans-serif;
+    }
+
+    body {
+      background: #11052C;
+      color: #FFE459;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      background-image: radial-gradient(#380075 15%, transparent 16%), radial-gradient(#380075 15%, transparent 16%);
+      background-size: 60px 60px;
+      background-position: 0 0, 30px 30px;
+    }
+
+    /* Навигация */
+    header {
+      background: #380075;
+      padding: 15px;
+      border-bottom: 4px solid #F9F871;
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+
+    .logo {
+      font-size: 1.8rem;
+      font-weight: bold;
+      color: #FF5E7E;
+      text-shadow: 2px 2px #F9F871;
+      text-decoration: none;
+      animation: pulse 1.5s infinite;
+    }
+
+    @keyframes pulse {
+      0% { transform: scale(1); }
+      50% { transform: scale(1.05); }
+      100% { transform: scale(1); }
+    }
+
+    nav {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+
+    nav button {
+      background: #FF5E7E;
+      color: white;
+      border: 2px solid #F9F871;
+      padding: 6px 12px;
+      font-weight: bold;
+      cursor: pointer;
+      border-radius: 6px;
+      transition: all 0.2s;
+    }
+
+    nav button:hover {
+      background: #F9F871;
+      color: #380075;
+      transform: translateY(-2px);
+    }
+
+    /* Контейнер */
+    main {
+      max-width: 1000px;
+      margin: 20px auto;
+      padding: 0 15px;
+      flex: 1;
+      width: 100%;
+    }
+
+    /* Вид сетки (Главная) */
+    .section-title {
+      text-align: center;
+      margin-bottom: 20px;
+      font-size: 2rem;
+      color: #F9F871;
+      text-shadow: 2px 2px #FF5E7E;
+    }
+
+    .transitions-grid {
+      display: grid;
+      grid-template-columns: repeat(5, 1fr);
+      gap: 12px;
+    }
+
+    @media (max-width: 768px) {
+      .transitions-grid {
+        grid-template-columns: repeat(3, 1fr);
+      }
+    }
+
+    @media (max-width: 480px) {
+      .transitions-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+    }
+
+    .grid-btn {
+      background: #FFE459;
+      color: #000;
+      border: 3px solid #000;
+      padding: 20px 10px;
+      text-align: center;
+      font-size: 1rem;
+      font-weight: bold;
+      cursor: pointer;
+      box-shadow: 4px 4px 0 #FF5E7E;
+      transition: transform 0.1s, box-shadow 0.1s;
+      user-select: none;
+    }
+
+    .grid-btn:hover {
+      transform: translate(-2px, -2px);
+      box-shadow: 6px 6px 0 #FF5E7E;
+      background: #FFF;
+    }
+
+    .grid-btn:active {
+      transform: translate(2px, 2px);
+      box-shadow: 2px 2px 0 #FF5E7E;
+    }
+
+    /* Просмотр экспоната */
+    .page-card {
+      display: none;
+      background: #240046;
+      border: 4px dashed #FF5E7E;
+      padding: 30px;
+      border-radius: 12px;
+      text-align: center;
+      animation: fadeIn 0.4s ease-out;
+    }
+
+    .page-card.active {
+      display: block;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: scale(0.95); }
+      to { opacity: 1; transform: scale(1); }
+    }
+
+    .page-number {
+      display: inline-block;
+      background: #FF5E7E;
+      color: white;
+      padding: 4px 12px;
+      border-radius: 20px;
+      font-size: 1rem;
+      margin-bottom: 15px;
+    }
+
+    .exhibit-title {
+      font-size: 2.2rem;
+      color: #F9F871;
+      margin-bottom: 15px;
+    }
+
+    .exhibit-emoji {
+      font-size: 4rem;
+      margin: 15px 0;
+      display: block;
+    }
+
+    .exhibit-desc {
+      font-size: 1.2rem;
+      color: #FFF;
+      line-height: 1.6;
+      margin-bottom: 25px;
+      background: rgba(0,0,0,0.3);
+      padding: 15px;
+      border-radius: 8px;
+    }
+
+    .interactive-zone {
+      margin: 20px 0;
+      padding: 15px;
+      background: #380075;
+      border-radius: 8px;
+    }
+
+    .action-btn {
+      background: #00F5D4;
+      color: #000;
+      border: none;
+      padding: 10px 20px;
+      font-weight: bold;
+      font-size: 1.1rem;
+      cursor: pointer;
+      border-radius: 6px;
+      box-shadow: 3px 3px 0 #000;
+    }
+
+    .action-btn:hover {
+      background: #7B2CBF;
+      color: #FFF;
+    }
+
+    .page-controls {
+      display: flex;
+      justify-content: space-between;
+      margin-top: 30px;
+      gap: 10px;
+    }
+
+    .page-controls button {
+      background: #F9F871;
+      color: #000;
+      border: 2px solid #000;
+      padding: 10px 18px;
+      font-weight: bold;
+      cursor: pointer;
+      border-radius: 6px;
+    }
+
+    .page-controls button:hover {
+      background: #FF5E7E;
+      color: white;
+    }
+
+    /* Футер */
+    footer {
+      background: #240046;
+      border-top: 4px solid #FF5E7E;
+      padding: 20px;
+      margin-top: 40px;
+      text-align: center;
+      color: #DDD;
+    }
+
+    footer a {
+      color: #00F5D4;
+      text-decoration: underline;
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <a href="#" class="logo" onclick="showMainPage(); return false;">🗿 МУЗЕЙ КРИНЖА</a>
+    <nav>
+      <button onclick="showMainPage()">🏠 Главная</button>
+      <button onclick="openPage(5)">⭐ Стр. 5</button>
+      <button onclick="openPage(15)">⭐ Стр. 15</button>
+      <button onclick="openPage(25)">♥️ Стр. 25</button>
+      <button onclick="openPage(30)">❇️ Стр. 30</button>
+    </nav>
+  </header>
+
+  <main>
+    <!-- Главная страница с переходниками -->
+    <div id="main-view">
+      <h1 class="section-title">Выберите следующий переходник:</h1>
+      <div class="transitions-grid" id="grid">
+        <!-- Кнопки генерируются JS -->
+      </div>
+    </div>
+
+    <!-- Область отображения страниц -->
+    <div id="page-view" class="page-card">
+      <span class="page-number" id="p-num">Переходник #1</span>
+      <h2 class="exhibit-title" id="p-title">Название</h2>
+      <span class="exhibit-emoji" id="p-emoji">🤡</span>
+      <p class="exhibit-desc" id="p-desc">Описание экспоната...</p>
+
+      <div class="interactive-zone" id="p-interactive">
+        <button class="action-btn" onclick="triggerAction()">Испытать кринж</button>
+        <p id="p-result" style="margin-top: 10px; font-weight: bold; color: #00F5D4;"></p>
+      </div>
+
+      <div class="page-controls">
+        <button onclick="prevPage()">⬅️ Назад</button>
+        <button onclick="showMainPage()">📋 К сетке</button>
+        <button onclick="nextPage()">Вперед ➡️</button>
+      </div>
+    </div>
+  </main>
+
+  <footer>
+    <p><strong>Музей Кринжа © 2026</strong> | Адаптивный веб-проект</p>
+    <p>Создано с использованием HTML, CSS и JS для вашей коллекции репозиториев на <a href="https://github.com" target="_blank">GitHub</a>.</p>
+  </footer><script>
+    // Данные для 30 уникальных страниц кринжа
+    const exhibits = [
+      { title: "Приветствие 2007 года", emoji: "🔊", desc: "ПрИвЕтИк СдЕлАй МнЕ СмАйЛиК В Лс!1!", action: "Отправить смайлик '===)'" },
+      { title: "Носки с сандалиями", emoji: "🧦", desc: "Классика летней моды высокой эстетики.", action: "Оценить стилёк (+100)" },
+      { title: "Опечатка в общем чате", emoji: "📱", desc: "Написал 'Люблю тебя' вместо 'Понял, спасибо' в рабочий чат.", action: "Удалиться из чата" },
+      { title: "Статус в ВК в 13 лет", emoji: "💔", desc: "'Мою душу забрал тот, кто даже не понял этого...'", action: "Свалиться от стыда" },
+      { title: "Мама в комментариях", emoji: "👩", desc: "Оставила комментарий 'Мой красивый сыночек' под твоим суровым фото.", action: "Поставить лайк маме" },
+      { title: "Упал перед толпой", emoji: "🚶‍♂️", desc: "Поскользнулся на ровном месте и сделал вид, что так и задумывалось.", action: "Начать отжиматься" },
+      { title: "Разговор сам с собой", emoji: "🗣️", desc: "Тебя застукали за горячим спором с самим собой в зеркале.", action: "Сделать вид, что поешь" },
+      { title: "Голосовое на 5 минут", emoji: "🎙️", desc: "Отправил человеку аудио, где 4 минуты ты просто дышишь и ищешь ключи.", action: "Переслушать самому" },
+      { title: "Холодный звонок", emoji: "📞", desc: "'Здравствуйте, мы из центра социологических опросов...'", action: "Повесить трубку" },
+      { title: "Автозамена Т9", emoji: "🤖", desc: "Т9 заменил слово 'котик' на 'кредитор' в самом не подходящем месте.", action: "Извиниться" },
+      { title: "Забыл имя собеседника", emoji: "🤔", desc: "Разговариваешь с человеком 2 часа, называя его 'Бро' и 'Дружище'.", action: "Спросить 'Как тебя в телеграме найти?'" },
+      { title: "Пылинка на экране", emoji: "🖥️", desc: "Пытался смахнуть с монитора точку, а это оказался элемент дизайна.", action: "Почистить экран" },
+      { title: "Ошибка 404 в реальной жизни", emoji: "❓", desc: "Зашел в комнату и забыл, зачем вообще сюда пришел.", action: "Зависнуть на 10 сек" },
+      { title: "Смех с едой во рту", emoji: "🍔", desc: "Кто-то пошутил, когда ты дожевывал бургер.", action: "Вытереть лицо" },
+      { title: "Забыл отключить микрофон", emoji: "🎧", desc: "На онлайн-уроке/созвоне все услышали, как ты поешь свою любимую песню.", action: "Выключить камеру" },
+      { title: "Махнул человеку в ответ", emoji: "👋", desc: "Помахал в ответ человеку, который махал кому-то за твоей спиной.", action: "Почесать затылок" },
+      { title: "Старый анекдот", emoji: "🎭", desc: "Рассказал шутку, а в ответ — полная тишина и сверчки.", action: "Пошутить еще хуже" },
+      { title: "Селфи с вспышкой в темноте", emoji: "📸", desc: "Случайно включил вспышку на передней камере в автобусе.", action: "Сделать вид, что это фонарик" },
+      { title: "Песня в голове", emoji: "🎶", desc: "Застрял припев из рекламы, и ты поешь его уже 3-й день.", action: "Запеть громче" },
+      { title: "Поздра вление не того", emoji: "🎂", desc: "Поздравил человека с днем рождения, а у него он был месяц назад.", action: "Сказать, что на будущее" },
+      { title: "Встреча в дверях", emoji: "🚪", desc: "Танцуете влево-вправо с незнакомцем, пытаясь пройти в дверь.", action: "Уступить дорогу" },
+      { title: "Не расслышал и кивнул", emoji: "🙂", desc: "Тебя что-то спросили, ты не понял, улыбнулся и сказал 'Давай!'.", action: "Уйти быстрым шагом" },
+      { title: "Философский пост в 3 ночи", emoji: "🌌", desc: "Написал глубокую мысль про жизнь, а утром прочитал и ужаснулся.", action: "Удалить пост" },
+      { title: "Перепутал педали", emoji: "🚲", desc: "Пытался красиво затормозить на велосипеде и перелетел через руль.", action: "Встать как ни в чем не бывало" },
+      { title: "Кринж-анимация", emoji: "✨", desc: "Переход PowerPoint 2003 'Вспышка' со звуком аплодисментов.", action: "Запустить эффект" },
+      { title: "Глаза в глаза в лифте", emoji: "🛗", desc: "Едешь 16 этажей в полной тишине с незнакомым соседом.", action: "Разглядывать кнопки" },
+      { title: "Сигнал наушников", emoji: "🎵", desc: "Думал, что музыка играет в наушниках, а она играла на весь динамик.", action: "Сделать тише" },
+      { title: "Забыл пароль от всего", emoji: "🔑", desc: "Ввел пароль '12345', система сказала: 'Новый пароль не должен совпадать со старым'.", action: "Восстановить через почту" },
+      { title: "Попытка тоста", emoji: "🥂", desc: "Начал говорить тост, запнулся и просто сказал 'Ну, за здоровье!'.", action: "Выпить сок" },
+      { title: "Финал Музея", emoji: "🏆", desc: "Поздравляем! Вы прошли все 30 уровней испанского стыда!", action: "Получить диплом Кринжеведа" }
+    ];
+
+    let currentPage = 1;
+
+    // Инициализация сетки
+    const gridContainer = document.getElementById('grid');
+    for (let i = 1; i <= 30; i++) {
+      const btn = document.createElement('div');
+      btn.className = 'grid-btn';
+      btn.innerText = `Переходник\n#${i}`;
+      btn.onclick = () => openPage(i);
+      gridContainer.appendChild(btn);
+    }
+
+    function showMainPage() {
+      document.getElementById('main-view').style.display = 'block';
+      document.getElementById('page-view').classList.remove('active');
+    }
+
+    function openPage(num) {
+      currentPage = num;
+      const data = exhibits[num - 1];
+
+      document.getElementById('p-num').innerText = `Переходник #${num}`;
+      document.getElementById('p-title').innerText = data.title;
+      document.getElementById('p-emoji').innerText = data.emoji;
+      document.getElementById('p-desc').innerText = data.desc;
+      
+      const btn = document.querySelector('#p-interactive .action-btn');
+      btn.innerText = data.action;
+      document.getElementById('p-result').innerText = '';
+
+      document.getElementById('main-view').style.display = 'none';
+      document.getElementById('page-view').classList.add('active');
+      window.scrollTo(0, 0);
+    }
+
+    function prevPage() {
+      if (currentPage > 1) {
+        openPage(currentPage - 1);
+      } else {
+        openPage(30);
+      }
+    }
+
+    function nextPage() {
+      if (currentPage < 30) {
+        openPage(currentPage + 1);
+      } else {
+        openPage(1);
+      }
+    }
+
+    function triggerAction() {
+      const results = [
+        "Уровень стыда увеличен на 50%! 📈",
+        "Вы получили ачивку: 'Мастерловка 2000' 🏅",
+        "Кто-то в мире только что почувствовал этот кринж! ⚡",
+        "Операция выполнена успешно! 😂"
+      ];
+      const randomRes = results[Math.floor(Math.random() * results.length)];
+      document.getElementById('p-result').innerText = randomRes;
+    }
+  </script>
+</body>
+</html>
